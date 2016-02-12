@@ -1,3 +1,47 @@
+function Menu() {
+  // hard coding some toppings here since I don't have a database yet
+  this.toppings = [new Topping('apple', 'regular'),
+                   new Topping('bell pepper', 'regular'),
+                   new Topping('black olives', 'regular'),
+                   new Topping('broccoli', 'regular'),
+                   new Topping('jalepenos', 'regular'),
+                   new Topping('minced garlic', 'regular'),
+                   new Topping('mushroom', 'regular'),
+                   new Topping('onion', 'regular'),
+                   new Topping('peach', 'regular'),
+                   new Topping('pear', 'regular'),
+                   new Topping('spinach', 'regular'),
+                   new Topping('tomato', 'regular'),
+                   new Topping('roasted red potato', 'regular'),
+                   new Topping('artichoke hearts', 'premium'),
+                   new Topping('asparagus', 'premium'),
+                   new Topping('caramelized onions', 'premium'),
+                   new Topping('curried cauliflower', 'premium'),
+                   new Topping('eggplant', 'premium'),
+                   new Topping('kalamata olives', 'premium'),
+                   new Topping('pesto', 'premium'),
+                   new Topping('roasted garlic', 'premium'),
+                   new Topping('roasted zucchini', 'premium'),
+                   new Topping('spicy tofu', 'premium'),
+                   new Topping('sun dried tomatoes', 'premium'),
+                   new Topping('tofu ricotta', 'premium'),
+                   new Topping('yams', 'premium')]
+}
+
+Menu.prototype.getToppings = function () {
+  return this.toppings;
+};
+
+Menu.prototype.getToppingByName = function (name) {
+  var toppings = this.getToppings();
+  for (var i = 0; i < toppings.length; i ++) {
+    var topping = toppings[i];
+    if (topping.getName() === name) {
+      return topping;
+    }
+  }
+};
+
 function Order() {
   this.pizzas = [];
 }
@@ -41,6 +85,7 @@ Pizza.prototype.setSize = function (size) {
   }
   this.size = newSize;
   this.setBaseCost();
+  this.setBaseToppingCost();
   return this.getSize();
 };
 
@@ -144,15 +189,15 @@ function makeNewDefaultPizza() {
   return newPizza;
 }
 
-// hard coding some toppings here since I don't have a database yet
-// function generateAvailableToppingsList() {
-//   return [new Topping('')]
-// }
-
 $(function() {
   var newPizza = makeNewDefaultPizza();
   updateNewPizzaInfo(newPizza);
 
+  var menu = new Menu();
+  var availableToppings = menu.getToppings();
+  generateAddToppingsButtons(availableToppings);
+
+  // Update pizza size and cost when the user selects a different size
   $('input[type=radio][name=pizza-size]').change(function() {
     var newSize = $('input[type=radio][name=pizza-size]:checked').val();
     newPizza.setSize(newSize);
@@ -160,6 +205,16 @@ $(function() {
     updatePizzaCostInfo(newPizza);
   });
 
+  // Update toppings list when the user chooses a topping
+  $('.topping').click(function() {
+    chosenToppingName = $(this).attr('id');
+    chosenTopping = menu.getToppingByName(chosenToppingName);
+    newPizza.addTopping(chosenTopping);
+    updatePizzaToppingsInfo(newPizza);
+    updatePizzaCostInfo(newPizza);
+  });
+
+  // UI functions
   function updateNewPizzaInfo(pizza) {
     setPizzaSizeRadio(pizza);
     updatePizzaSizeInfo(pizza);
@@ -178,12 +233,22 @@ $(function() {
 
   function updatePizzaToppingsInfo(pizza) {
     var toppings = pizza.toppings;
+    var $toppingsList = $('ul#new-pizza-toppings')
+
+    $toppingsList.empty();
     toppings.forEach(function(topping) {
-      $('ul#new-pizza-toppings').append('<li>' + topping.getName() + '</li>');
+      $toppingsList.append('<li>' + topping.getName() + '</li>');
     });
   }
   // TODO: write function to show pizza cost in $s
   function updatePizzaCostInfo(pizza) {
     $('span#new-pizza-cost').text('$' + pizza.getTotalPizzaCost());
   }
+
+  function generateAddToppingsButtons(toppings) {
+    toppings.forEach(function(topping) {
+      $('ul#toppings-list').append('<li class="topping" id="' +
+        topping.getName() + '">' + topping.getName() + '</li>');
+    });
+  };
 });
