@@ -43,10 +43,15 @@ Pizza.prototype.removeTopping = function (topping) {
   return toppings;
 };
 
-function Topping(name) {
+function Topping(name, costCategory) {
   this.name = name;
+  this.costCategory = costCategory;
 }
 
 Topping.prototype.getName = function () {
   return this.name;
+};
+
+Topping.prototype.getCostCategory = function () {
+  return this.costCategory;
 };

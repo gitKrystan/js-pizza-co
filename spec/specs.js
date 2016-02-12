@@ -63,6 +63,11 @@ describe('Toppings', function() {
     var testTopping = new Topping('cashew cheese');
     expect(testTopping.getName()).to.equal('cashew cheese');
   });
+
+  it('knows its cost category', function() {
+    var testTopping = new Topping('name is irrelevant', 'premium');
+    expect(testTopping.getCostCategory()).to.equal('premium');
+  });
 });
 
 function newTestOrder() {
