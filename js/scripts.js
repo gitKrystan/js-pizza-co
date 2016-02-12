@@ -90,6 +90,22 @@ Pizza.prototype.getToppingCost = function (topping) {
   return baseCost * costAdjustmentForToppingCategory;
 };
 
+Pizza.prototype.getTotalToppingsCost = function () {
+  var pizza = this;
+  var toppings = this.getToppings();
+  var total = 0;
+  toppings.forEach(function(topping) {
+    total += pizza.getToppingCost(topping);
+  });
+  return total;
+};
+
+Pizza.prototype.getTotalPizzaCost = function () {
+  var baseCost = this.getBaseCost();
+  var toppingsCost = this.getTotalToppingsCost();
+  return baseCost + toppingsCost;
+};
+
 function Topping(name, costCategory) {
   this.name = name;
   this.costCategory = costCategory;

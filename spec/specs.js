@@ -94,6 +94,21 @@ describe('Pizza', function() {
       expect(testLargePizza.getToppingCost(testPremiumTopping)).to.equal(4);
     });
   });
+
+  describe('prototype.getTotalPizzaCost()', function() {
+    it('returns the cost of a medium pizza with no added toppings', function() {
+      var testMediumPizza = newTestMediumPizza();
+      expect(testMediumPizza.getTotalPizzaCost()).to.equal(14);
+    });
+
+    it('returns the cost of a large pizza with three premium toppings', function() {
+      var testLargePizza = newTestLargePizza();
+      testLargePizza.addTopping(newTestPremiumTopping());
+      testLargePizza.addTopping(newTestPremiumTopping());
+      testLargePizza.addTopping(newTestPremiumTopping());
+      expect(testLargePizza.getTotalPizzaCost()).to.equal(16 + 3 * 4);
+    });
+  });
 });
 
 describe('Toppings', function() {
