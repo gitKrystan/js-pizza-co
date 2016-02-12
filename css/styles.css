@@ -1,0 +1,12 @@
+.page-header {
+	border-bottom: 1px solid white;
+}
+
+.jumbotron {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.jumbotron p {
+	margin-bottom: 0;
+}

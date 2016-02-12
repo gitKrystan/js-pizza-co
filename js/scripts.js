@@ -14,7 +14,7 @@ Order.prototype.addPizza = function (pizza) {
 
 // TODO: figure out how to use enums for pizza size
 function Pizza(size) {
-  this.size = size;
+  this.size = size || 'medium';
   this.toppings = [];
   this.baseCost = this.setBaseCost();
   this.baseToppingCost = this.setBaseToppingCost();
@@ -121,11 +121,38 @@ Topping.prototype.getCostCategory = function () {
 
 Topping.prototype.costAdjustmentForCostCategory = function () {
   var toppingCostCategory = this.getCostCategory(); // regular or premium
-  var toppingCostCategoryMultiplier; // Cost adjustment based on topping cost
-
-  if (toppingCostCategory === 'premium') {
-    return toppingCostCategoryMultiplier = 2;
-  } else {
-    return toppingCostCategoryMultiplier = 1;
+  switch (toppingCostCategory) {
+    case 'premium': return 2;
+    case 'free': return 0;
+    default: return 1;
   }
 };
+
+function makeNewDefaultPizza() {
+  var newPizza = new Pizza();
+  newPizza.addTopping(new Topping('red sauce', 'free'));
+  newPizza.addTopping(new Topping('cashew cheese', 'free'));
+  return newPizza;
+}
+
+// hard coding some toppings here since I don't have a database yet
+// function generateAvailableToppingsList() {
+//   return [new Topping('')]
+// }
+
+$(function() {
+  var newPizza = makeNewDefaultPizza();
+  updateNewPizzaInfo(newPizza);
+
+  function updateNewPizzaInfo(pizza) {
+    $('p#new-pizza-size').append(pizza.getSize());
+    updateNewPizzaToppings(pizza);
+  };
+
+  function updateNewPizzaToppings(pizza) {
+    var toppings = pizza.toppings;
+    toppings.forEach(function(topping) {
+      $('ul#new-pizza-toppings').append('<li>' + topping.getName() + '</li>');
+    });
+  }
+});

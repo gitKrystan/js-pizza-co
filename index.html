@@ -5,14 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Krystan is a nice lady</title>
+    <title>NYAPizCo</title>
 
     <!-- CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <div class="container">
+      <div class="page-header">
+        <h5>
+          Not Your Average Pizza Company
+        </h5>
+      </div>
+
+      <div class="row">
+        <div class="jumbotron">
+          <h3>Place a Delivery Order</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9">
+          <form id="pizza-selection">
+            <div class="form-group">
+              <h4>Choose a Pizza Size</h4>
+              <label class="radio-inline">
+                <input type="radio" name="pizza-size" id="pizza-size-small" value="small"> Small
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="pizza-size" id="pizza-size-medium" value="medium"> Medium
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="pizza-size" id="pizza-size-large" value="large"> Large
+              </label>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-warning btn-block">Add This Pizza to My Order</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-3 well" id="order-status">
+          <div>
+            <h4>This Pizza</h4>
+            <p id="new-pizza-size">Size: </p>
+            <p>Toppings: </p>
+            <ul class="list-unstyled" id="new-pizza-toppings">
+              <!-- Pizza toppings go here -->
+            </ul>
+          </div>
+          
+          <div id="order-summary" class="collapse">
+            <h4>Your Order</h4>
+            <ul class="list-unstyled">
+              <!-- Ordered pizzas go here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
