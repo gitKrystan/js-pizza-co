@@ -41,6 +41,21 @@ describe('Pizza', function() {
       expect(testPizza.getToppings()).to.eql([testTopping]);
     });
   });
+
+  describe('prototype.removeTopping()', function() {
+    it('removes a topping from the toppings list', function() {
+      var testPizza = newTestPizza();
+      var testTopping = newTestTopping();
+      var testSecondTopping = newTestSecondTopping();
+      var testThirdTopping = newTestThirdTopping();
+      testPizza.addTopping(testTopping);
+      testPizza.addTopping(testSecondTopping);
+      testPizza.addTopping(testThirdTopping);
+      testPizza.removeTopping(testTopping);
+      expect(testPizza.getToppings())
+        .to.eql([testSecondTopping, testThirdTopping]);
+    });
+  });
 });
 
 describe('Toppings', function() {
@@ -64,4 +79,12 @@ function newTestMediumPizza() {
 
 function newTestTopping() {
   return new Topping('cashew cheese');
+}
+
+function newTestSecondTopping() {
+  return new Topping('roast beets');
+}
+
+function newTestThirdTopping() {
+  return new Topping('pickled onions');
 }

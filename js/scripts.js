@@ -36,6 +36,13 @@ Pizza.prototype.addTopping = function (topping) {
   return toppings;
 };
 
+Pizza.prototype.removeTopping = function (topping) {
+  var toppings = this.getToppings();
+  var index = toppings.indexOf(topping);
+  if (index > -1) toppings.splice(index, 1);
+  return toppings;
+};
+
 function Topping(name) {
   this.name = name;
 }
