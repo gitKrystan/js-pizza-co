@@ -25,13 +25,22 @@ Pizza.prototype.getSize = function () {
 };
 
 Pizza.prototype.setSize = function (size) {
+  var newSize;
   switch (size) {
-    case 'small':  return this.size = 'small';
-    case 'medium': return this.size = 'medium';
-    case 'large':  return this.size = 'large';
-    default:       return this.size = 'medium';
+    case 'small':
+      newSize = 'small';
+      break;
+    case 'medium':
+      newSize = 'medium';
+      break;
+    case 'large':
+      newSize = 'large';
+      break;
+    default:
+      newSize = 'medium';
   }
-  this.size = size;
+  this.size = newSize;
+  this.setBaseCost();
   return this.getSize();
 };
 
@@ -148,12 +157,14 @@ $(function() {
     var newSize = $('input[type=radio][name=pizza-size]:checked').val();
     newPizza.setSize(newSize);
     updatePizzaSizeInfo(newPizza);
+    updatePizzaCostInfo(newPizza);
   });
 
   function updateNewPizzaInfo(pizza) {
     setPizzaSizeRadio(pizza);
     updatePizzaSizeInfo(pizza);
     updatePizzaToppingsInfo(pizza);
+    updatePizzaCostInfo(pizza);
   }
 
   function setPizzaSizeRadio(pizza) {
@@ -170,5 +181,9 @@ $(function() {
     toppings.forEach(function(topping) {
       $('ul#new-pizza-toppings').append('<li>' + topping.getName() + '</li>');
     });
+  }
+  // TODO: write function to show pizza cost in $s
+  function updatePizzaCostInfo(pizza) {
+    $('span#new-pizza-cost').text('$' + pizza.getTotalPizzaCost());
   }
 });
