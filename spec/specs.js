@@ -64,8 +64,34 @@ describe('Pizza', function() {
     });
 
     it('returns the dollar cost of a large pizza', function() {
-      var testLargePizza = new Pizza('large');
+      var testLargePizza = newTestLargePizza();
       expect(testLargePizza.getBaseCost()).to.equal(16);
+    });
+  });
+
+  describe('prototype.getToppingCost()', function() {
+    it('returns the cost of a regular topping on a medium pizza', function() {
+      var testRegularTopping = newTestRegularTopping();
+      var testMediumPizza = newTestMediumPizza();
+      expect(testMediumPizza.getToppingCost(testRegularTopping)).to.equal(1.5);
+    });
+
+    it('returns the cost of a regular topping on a small pizza', function() {
+      var testRegularTopping = newTestRegularTopping();
+      var testSmallPizza = newTestSmallPizza();
+      expect(testSmallPizza.getToppingCost(testRegularTopping)).to.equal(1);
+    });
+
+    it('returns the cost of a premium topping on a medium pizza', function() {
+      var testPremiumTopping = newTestPremiumTopping();
+      var testMediumPizza = newTestMediumPizza();
+      expect(testMediumPizza.getToppingCost(testPremiumTopping)).to.equal(3);
+    });
+
+    it('returns the cost of a premium topping on a large pizza', function() {
+      var testPremiumTopping = newTestPremiumTopping();
+      var testLargePizza = newTestLargePizza();
+      expect(testLargePizza.getToppingCost(testPremiumTopping)).to.equal(4);
     });
   });
 });
@@ -90,8 +116,16 @@ function newTestPizza() {
   return new Pizza('medium');
 }
 
+function newTestSmallPizza() {
+  return new Pizza('small');
+}
+
 function newTestMediumPizza() {
   return new Pizza('medium');
+}
+
+function newTestLargePizza() {
+  return new Pizza('large');
 }
 
 function newTestTopping() {
@@ -104,6 +138,10 @@ function newTestSecondTopping() {
 
 function newTestThirdTopping() {
   return new Topping('pickled onions');
+}
+
+function newTestRegularTopping() {
+  return new Topping('name is irrelevant', 'regular');
 }
 
 function newTestPremiumTopping() {

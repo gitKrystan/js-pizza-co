@@ -17,6 +17,7 @@ function Pizza(size) {
   this.size = size;
   this.toppings = [];
   this.baseCost = this.setBaseCost();
+  this.baseToppingCost = this.setBaseToppingCost();
 }
 
 Pizza.prototype.getSize = function () {
@@ -50,6 +51,22 @@ Pizza.prototype.setBaseCost = function () {
   }
 };
 
+Pizza.prototype.getBaseToppingCost = function () {
+  return this.baseToppingCost;
+};
+
+Pizza.prototype.setBaseToppingCost = function () {
+  var size = this.getSize();
+  var costForMedium = 1.5; // based on cost of regular topping on medium pizza
+  var costAdjustment = 0.5; // Cost adjustment based on pizza size
+  switch (size) {
+    case 'small':   return this.baseToppingCost = costForMedium - costAdjustment;
+    case 'medium':  return this.baseToppingCost = costForMedium;
+    case 'large':   return this.baseToppingCost = costForMedium + costAdjustment;
+    default:        return this.baseToppingCost = costForMedium;
+  }
+};
+
 Pizza.prototype.getToppings = function () {
   return this.toppings;
 };
@@ -67,6 +84,12 @@ Pizza.prototype.removeTopping = function (topping) {
   return toppings;
 };
 
+Pizza.prototype.getToppingCost = function (topping) {
+  var baseCost = this.getBaseToppingCost(); // cost of a regular topping on this pizza
+  var costAdjustmentForToppingCategory = topping.costAdjustmentForCostCategory();
+  return baseCost * costAdjustmentForToppingCategory;
+};
+
 function Topping(name, costCategory) {
   this.name = name;
   this.costCategory = costCategory;
@@ -78,4 +101,15 @@ Topping.prototype.getName = function () {
 
 Topping.prototype.getCostCategory = function () {
   return this.costCategory;
+};
+
+Topping.prototype.costAdjustmentForCostCategory = function () {
+  var toppingCostCategory = this.getCostCategory(); // regular or premium
+  var toppingCostCategoryMultiplier; // Cost adjustment based on topping cost
+
+  if (toppingCostCategory === 'premium') {
+    return toppingCostCategoryMultiplier = 2;
+  } else {
+    return toppingCostCategoryMultiplier = 1;
+  }
 };
