@@ -5,6 +5,13 @@ describe('Order', function() {
   });
 });
 
+describe('Pizza', function() {
+  it('knows what size pizza it is', function() {
+    var testMediumPizza = new Pizza('medium');
+    expect(testMediumPizza.getSize()).to.equal('medium');
+  });
+});
+
 function newTestOrder() {
   return new Order();
 }
