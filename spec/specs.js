@@ -16,8 +16,16 @@ describe('Order', function() {
 
 describe('Pizza', function() {
   it('knows what size pizza it is', function() {
-    var testMediumPizza = new Pizza('medium');
+    var testMediumPizza = newTestMediumPizza();
     expect(testMediumPizza.getSize()).to.equal('medium');
+  });
+
+  describe('setSize()', function() {
+    it('sets the pizza size', function() {
+      var testPizza = newTestMediumPizza();
+      testPizza.setSize('small');
+      expect(testPizza.getSize()).to.equal('small');
+    });
   });
 });
 
@@ -26,5 +34,9 @@ function newTestOrder() {
 }
 
 function newTestPizza() {
-  new Pizza('medium');
+  return new Pizza('medium');
+}
+
+function newTestMediumPizza() {
+  return new Pizza('medium');
 }

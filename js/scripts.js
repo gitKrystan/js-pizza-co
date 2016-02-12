@@ -19,3 +19,8 @@ function Pizza(size) {
 Pizza.prototype.getSize = function () {
   return this.size;
 };
+
+Pizza.prototype.setSize = function (size) {
+  this.size = size;
+  return this.getSize();
+};
