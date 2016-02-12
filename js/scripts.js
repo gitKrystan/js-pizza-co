@@ -14,7 +14,7 @@ Order.prototype.addPizza = function (pizza) {
 
 // TODO: figure out how to use enums for pizza size
 function Pizza(size) {
-  this.size = size;
+  this.size = this.setSize();
   this.toppings = [];
   this.baseCost = this.setBaseCost();
 }
@@ -24,7 +24,13 @@ Pizza.prototype.getSize = function () {
 };
 
 Pizza.prototype.setSize = function (size) {
-  this.size = size;
+  // this.size = size;
+  switch (size) {
+    case 'small':  return this.size = 'small';
+    case 'medium': return this.size = 'medium';
+    case 'large':  return this.size = 'large';
+    default:       return this.size = 'medium';
+  }
   return this.getSize();
 };
 
