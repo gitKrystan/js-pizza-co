@@ -14,7 +14,7 @@ Order.prototype.addPizza = function (pizza) {
 
 // TODO: figure out how to use enums for pizza size
 function Pizza(size) {
-  this.size = this.setSize();
+  this.size = size;
   this.toppings = [];
   this.baseCost = this.setBaseCost();
 }
@@ -24,13 +24,13 @@ Pizza.prototype.getSize = function () {
 };
 
 Pizza.prototype.setSize = function (size) {
-  // this.size = size;
   switch (size) {
     case 'small':  return this.size = 'small';
     case 'medium': return this.size = 'medium';
     case 'large':  return this.size = 'large';
     default:       return this.size = 'medium';
   }
+  this.size = size;
   return this.getSize();
 };
 
@@ -39,7 +39,7 @@ Pizza.prototype.getBaseCost = function () {
 };
 
 Pizza.prototype.setBaseCost = function () {
-  var size = this.size;
+  var size = this.getSize();
   var costOfMedium = 14; // medium pizza has the median cost
   var costAdjustment = 2; // adjustment of cost base on pizza size
   switch (size) {

@@ -62,6 +62,11 @@ describe('Pizza', function() {
       var testMediumPizza = newTestMediumPizza();
       expect(testMediumPizza.getBaseCost()).to.equal(14);
     });
+
+    it('returns the dollar cost of a large pizza', function() {
+      var testLargePizza = new Pizza('large');
+      expect(testLargePizza.getBaseCost()).to.equal(16);
+    });
   });
 });
 
