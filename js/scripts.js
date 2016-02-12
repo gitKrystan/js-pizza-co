@@ -14,6 +14,7 @@ Order.prototype.addPizza = function (pizza) {
 
 function Pizza(size) {
   this.size = size;
+  this.toppings = [];
 }
 
 Pizza.prototype.getSize = function () {
@@ -23,4 +24,8 @@ Pizza.prototype.getSize = function () {
 Pizza.prototype.setSize = function (size) {
   this.size = size;
   return this.getSize();
+};
+
+Pizza.prototype.getToppings = function () {
+  return this.toppings;
 };

@@ -20,6 +20,11 @@ describe('Pizza', function() {
     expect(testMediumPizza.getSize()).to.equal('medium');
   });
 
+  it('initializes with an empty list of toppings', function() {
+    var testPizza = newTestPizza();
+    expect(testPizza.getToppings()).to.eql([]);
+  });
+
   describe('setSize()', function() {
     it('sets the pizza size', function() {
       var testPizza = newTestMediumPizza();
