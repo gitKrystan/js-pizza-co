@@ -38,7 +38,6 @@ Pizza.prototype.getBaseCost = function () {
   return this.baseCost;
 };
 
-// TODO: refactor w/ enums or constants?
 Pizza.prototype.setBaseCost = function () {
   var size = this.size;
   var costOfMedium = 14; // medium pizza has the median cost

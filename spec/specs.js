@@ -72,7 +72,7 @@ describe('Toppings', function() {
   });
 
   it('knows its cost category', function() {
-    var testTopping = new Topping('name is irrelevant', 'premium');
+    var testTopping = newTestPremiumTopping();
     expect(testTopping.getCostCategory()).to.equal('premium');
   });
 });
@@ -99,4 +99,8 @@ function newTestSecondTopping() {
 
 function newTestThirdTopping() {
   return new Topping('pickled onions');
+}
+
+function newTestPremiumTopping() {
+  return new Topping('name is irrelevant', 'premium');
 }
