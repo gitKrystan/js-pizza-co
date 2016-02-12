@@ -144,12 +144,28 @@ $(function() {
   var newPizza = makeNewDefaultPizza();
   updateNewPizzaInfo(newPizza);
 
-  function updateNewPizzaInfo(pizza) {
-    $('p#new-pizza-size').append(pizza.getSize());
-    updateNewPizzaToppings(pizza);
-  };
+  $('input[type=radio][name=pizza-size]').change(function() {
+    var newSize = $('input[type=radio][name=pizza-size]:checked').val();
+    newPizza.setSize(newSize);
+    updatePizzaSizeInfo(newPizza);
+  });
 
-  function updateNewPizzaToppings(pizza) {
+  function updateNewPizzaInfo(pizza) {
+    setPizzaSizeRadio(pizza);
+    updatePizzaSizeInfo(pizza);
+    updatePizzaToppingsInfo(pizza);
+  }
+
+  function setPizzaSizeRadio(pizza) {
+    $('input[type=radio][name=pizza-size][value=' + pizza.getSize() + ']')
+      .prop( "checked", true );
+  }
+
+  function updatePizzaSizeInfo(pizza) {
+    $('span#new-pizza-size').text(pizza.getSize());
+  }
+
+  function updatePizzaToppingsInfo(pizza) {
     var toppings = pizza.toppings;
     toppings.forEach(function(topping) {
       $('ul#new-pizza-toppings').append('<li>' + topping.getName() + '</li>');

@@ -31,13 +31,13 @@
             <div class="form-group">
               <h4>Choose a Pizza Size</h4>
               <label class="radio-inline">
-                <input type="radio" name="pizza-size" id="pizza-size-small" value="small"> Small
+                <input type="radio" name="pizza-size" value="small"> Small
               </label>
               <label class="radio-inline">
-                <input type="radio" name="pizza-size" id="pizza-size-medium" value="medium"> Medium
+                <input type="radio" name="pizza-size" value="medium"> Medium
               </label>
               <label class="radio-inline">
-                <input type="radio" name="pizza-size" id="pizza-size-large" value="large"> Large
+                <input type="radio" name="pizza-size" value="large"> Large
               </label>
             </div>
             <div class="form-group">
@@ -49,13 +49,13 @@
         <div class="col-md-3 well" id="order-status">
           <div>
             <h4>This Pizza</h4>
-            <p id="new-pizza-size">Size: </p>
+            <p>Size: <span id="new-pizza-size"></span></p>
             <p>Toppings: </p>
             <ul class="list-unstyled" id="new-pizza-toppings">
               <!-- Pizza toppings go here -->
             </ul>
           </div>
-          
+
           <div id="order-summary" class="collapse">
             <h4>Your Order</h4>
             <ul class="list-unstyled">
