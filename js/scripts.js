@@ -29,3 +29,11 @@ Pizza.prototype.setSize = function (size) {
 Pizza.prototype.getToppings = function () {
   return this.toppings;
 };
+
+function Topping(name) {
+  this.name = name;
+}
+
+Topping.prototype.getName = function () {
+  return this.name;
+};

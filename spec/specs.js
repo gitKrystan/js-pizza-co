@@ -34,6 +34,13 @@ describe('Pizza', function() {
   });
 });
 
+describe('Toppings', function() {
+  it('knows its name', function() {
+    var testTopping = new Topping('cashew cheese');
+    expect(testTopping.getName()).to.equal('cashew cheese');
+  });
+});
+
 function newTestOrder() {
   return new Order();
 }
