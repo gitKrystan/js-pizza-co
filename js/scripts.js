@@ -12,9 +12,11 @@ Order.prototype.addPizza = function (pizza) {
   return pizzas;
 };
 
+// TODO: figure out how to use enums for pizza size
 function Pizza(size) {
   this.size = size;
   this.toppings = [];
+  this.baseCost = this.setBaseCost();
 }
 
 Pizza.prototype.getSize = function () {
@@ -24,6 +26,23 @@ Pizza.prototype.getSize = function () {
 Pizza.prototype.setSize = function (size) {
   this.size = size;
   return this.getSize();
+};
+
+Pizza.prototype.getBaseCost = function () {
+  return this.baseCost;
+};
+
+// TODO: refactor w/ enums or constants?
+Pizza.prototype.setBaseCost = function () {
+  var size = this.size;
+  var costOfMedium = 14; // medium pizza has the median cost
+  var costAdjustment = 2; // adjustment of cost base on pizza size
+  switch (size) {
+    case 'small':   return this.baseCost = costOfMedium - costAdjustment;
+    case 'medium':  return this.baseCost = costOfMedium;
+    case 'large':   return this.baseCost = costOfMedium + costAdjustment;
+    default:        return this.baseCost = costOfMedium;
+  }
 };
 
 Pizza.prototype.getToppings = function () {

@@ -56,6 +56,13 @@ describe('Pizza', function() {
         .to.eql([testSecondTopping, testThirdTopping]);
     });
   });
+
+  describe('prototype.getBaseCost()', function() {
+    it('returns the dollar cost of a medium pizza', function() {
+      var testMediumPizza = newTestMediumPizza();
+      expect(testMediumPizza.getBaseCost()).to.equal(14);
+    });
+  });
 });
 
 describe('Toppings', function() {
