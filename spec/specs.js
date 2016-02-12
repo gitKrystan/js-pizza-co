@@ -25,11 +25,20 @@ describe('Pizza', function() {
     expect(testPizza.getToppings()).to.eql([]);
   });
 
-  describe('setSize()', function() {
+  describe('prototype.setSize()', function() {
     it('sets the pizza size', function() {
       var testPizza = newTestMediumPizza();
       testPizza.setSize('small');
       expect(testPizza.getSize()).to.equal('small');
+    });
+  });
+
+  describe('prototype.addTopping()', function() {
+    it('adds a topping to the toppings list', function() {
+      var testPizza = newTestPizza();
+      var testTopping = newTestTopping();
+      testPizza.addTopping(testTopping);
+      expect(testPizza.getToppings()).to.eql([testTopping]);
     });
   });
 });
@@ -51,4 +60,8 @@ function newTestPizza() {
 
 function newTestMediumPizza() {
   return new Pizza('medium');
+}
+
+function newTestTopping() {
+  return new Topping('cashew cheese');
 }

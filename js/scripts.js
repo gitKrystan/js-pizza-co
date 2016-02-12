@@ -30,6 +30,12 @@ Pizza.prototype.getToppings = function () {
   return this.toppings;
 };
 
+Pizza.prototype.addTopping = function (topping) {
+  var toppings = this.getToppings();
+  toppings.push(topping);
+  return toppings;
+};
+
 function Topping(name) {
   this.name = name;
 }
