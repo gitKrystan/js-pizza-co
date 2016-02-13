@@ -212,20 +212,16 @@ Topping.prototype.getCostAdjustmentForCostCategory = function () {
 };
 
 function makeNewDefaultPizza() {
-  var newPizza = new Pizza();
-  newPizza.addTopping(new Topping('red sauce', ToppingCategoryEnum.FREE));
-  newPizza.addTopping(new Topping('cashew cheese', ToppingCategoryEnum.FREE));
-  return newPizza;
+  var pizzaForOrder = new Pizza();
+  pizzaForOrder.addTopping(new Topping('red sauce', ToppingCategoryEnum.FREE));
+  pizzaForOrder.addTopping(new Topping('cashew cheese', ToppingCategoryEnum.FREE));
+  return pizzaForOrder;
 }
 
 $(function() {
   // TODO: for cleaner code, consider making these two lines a method
-  // TODO: in your event handlers, the variable name 'newPizza' is confusing
-  // becuase it makes me think that you've created a new pizza object in that
-  // event handler. maybe change the 'newPizza' variable name to just 'pizza'
-  // or 'pizzaForOrder' or something.
-  var newPizza = makeNewDefaultPizza();
-  updateNewPizzaInfo(newPizza);
+  var pizzaForOrder = makeNewDefaultPizza();
+  updateNewPizzaInfo(pizzaForOrder);
 
   // TODO: for cleaner code, consider making these three lines a method
   var menu = new Menu();
@@ -238,24 +234,24 @@ $(function() {
     // the jQuery selector for the radio button?
     var newSizeString = $('input[type=radio][name=pizza-size]:checked').val();
     var newSize = SizeEnum.getEnumFromString(newSizeString);
-    newPizza.setSize(newSize);
-    updatePizzaSizeInfo(newPizza);
-    updatePizzaCostInfo(newPizza);
+    pizzaForOrder.setSize(newSize);
+    updatePizzaSizeInfo(pizzaForOrder);
+    updatePizzaCostInfo(pizzaForOrder);
   });
 
   // Update toppings list when the user chooses a topping
   $('li.topping').on('click', function() {
     var chosenToppingID = $(this).attr('id');
     var chosenTopping = menu.getToppingByID(chosenToppingID);
-    newPizza.addTopping(chosenTopping);
-    addPizzaToppingToInfo(newPizza, chosenTopping);
-    updatePizzaCostInfo(newPizza);
+    pizzaForOrder.addTopping(chosenTopping);
+    addPizzaToppingToInfo(pizzaForOrder, chosenTopping);
+    updatePizzaCostInfo(pizzaForOrder);
   });
 
   $('form#pizza-selection').submit(function(event) {
     event.preventDefault();
     var order = new Order();
-    order.addPizza(newPizza);
+    order.addPizza(pizzaForOrder);
 
     // TODO: to prevent possible weird UI jiggly behavior, don't show the order
     // summary until after you've setup its contents
@@ -302,12 +298,12 @@ $(function() {
     $('li span#' + topping.getID()).on('click', function() {
       var chosenToppingID = $(this).attr('id');
       var chosenTopping = menu.getToppingByID(chosenToppingID);
-      newPizza.removeTopping(chosenTopping);
+      pizzaForOrder.removeTopping(chosenTopping);
       // TODO: consider making this a method for cleaner code because the level of
       // of abstraction of this line is a lot lower than the other lines in this
       // event handler
       $(this).parent().remove();
-      updatePizzaCostInfo(newPizza);
+      updatePizzaCostInfo(pizzaForOrder);
     });
   }
 
