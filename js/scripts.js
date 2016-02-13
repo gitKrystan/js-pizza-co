@@ -81,7 +81,6 @@ Order.prototype.addPizza = function (pizza) {
   return pizzas;
 };
 
-// TODO: figure out how to use enums for pizza size
 function Pizza(size) {
   this.size = size || SizeEnum.MEDIUM;
   this.toppings = [];
