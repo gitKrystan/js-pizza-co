@@ -84,8 +84,8 @@ Order.prototype.addPizza = function (pizza) {
 function Pizza(size) {
   this.size = size || SizeEnum.MEDIUM;
   this.toppings = [];
-  this.baseCost = this.setBaseCost();
-  this.baseToppingCost = this.setBaseToppingCost();
+  this.setBaseCost();
+  this.setBaseToppingCost();
 }
 
 Pizza.prototype.getSize = function () {
@@ -98,6 +98,12 @@ Pizza.prototype.getHumanReadableSize = function () {
 
 Pizza.prototype.setSize = function (size) {
   var newSize;
+
+  // TODO: you are validating that the size passed in is valid, then setting it.
+  // you should move the validation code to a separate method to make the code
+  // cleaner.
+  // it might make the most sense for the validation functionality to be in the
+  // enum object.
   switch (size) {
     case SizeEnum.SMALL:
       newSize = SizeEnum.SMALL;
@@ -123,8 +129,14 @@ Pizza.prototype.getBaseCost = function () {
 
 Pizza.prototype.setBaseCost = function () {
   var size = this.getSize();
+
+  // TODO: make these constants. consider putting them in the enum object as
+  // properties if that seems appropriate.
+
   var costOfMedium = 14; // medium pizza has the median cost
   var costAdjustment = 2; // adjustment of cost base on pizza size
+
+  // TODO: move these calculations to a separate method to make the code cleaner.
   switch (size) {
     case SizeEnum.SMALL:
       this.baseCost = costOfMedium - costAdjustment;
@@ -148,6 +160,10 @@ Pizza.prototype.getBaseToppingCost = function () {
 
 Pizza.prototype.setBaseToppingCost = function () {
   var size = this.getSize();
+
+  // TODO: same suggestions here as setBaseCost above regarding constants and
+  // splitting this into multiple methods.
+
   var costForMedium = 1.5; // based on cost of regular topping on medium pizza
   var costAdjustment = 0.5; // Cost adjustment based on pizza size
   switch (size) {
@@ -177,6 +193,9 @@ Pizza.prototype.addTopping = function (topping) {
 };
 
 Pizza.prototype.removeTopping = function (topping) {
+  // TODO: consider making a generic method that finds an element in an array
+  // and removes it. this method could just call that method, to make the code
+  // cleaner.
   var toppings = this.getToppings();
   var index = toppings.indexOf(topping);
   if (index > -1) toppings.splice(index, 1);
@@ -190,7 +209,10 @@ Pizza.prototype.getToppingCost = function (topping) {
 };
 
 Pizza.prototype.getTotalToppingsCost = function () {
+
   var pizza = this;
+  // TODO: for cleaner code, either just use "this" instead of "pizza", or
+  // be consistent and use "pizza" instead of "this" throughout the method.
   var toppings = this.getToppings();
   var total = 0;
   toppings.forEach(function(topping) {
@@ -218,8 +240,10 @@ Topping.prototype.getCostCategory = function () {
   return this.costCategory;
 };
 
+// TODO: method names should start with a verb for cleaner code
 Topping.prototype.costAdjustmentForCostCategory = function () {
   var toppingCostCategory = this.getCostCategory(); // regular or premium
+  // TODO: use an enum like we did for pizza size
   switch (toppingCostCategory) {
     case 'premium': return 2;
     case 'free': return 0;
@@ -235,15 +259,23 @@ function makeNewDefaultPizza() {
 }
 
 $(function() {
+  // TODO: for cleaner code, consider making these two lines a method
+  // TODO: in your event handlers, the variable name 'newPizza' is confusing
+  // becuase it makes me think that you've created a new pizza object in that
+  // event handler. maybe change the 'newPizza' variable name to just 'pizza'
+  // or 'pizzaForOrder' or something.
   var newPizza = makeNewDefaultPizza();
   updateNewPizzaInfo(newPizza);
 
+  // TODO: for cleaner code, consider making these three lines a method
   var menu = new Menu();
   var availableToppings = menu.getToppings();
   generateAddToppingsButtons(availableToppings);
 
   // Update pizza size and cost when the user selects a different size
   $('input[type=radio][name=pizza-size]').change(function() {
+    // TODO: for simpler code, is there a way you can use 'this' instead of
+    // the jQuery selector for the radio button?
     var newSizeString = $('input[type=radio][name=pizza-size]:checked').val();
     var newSize = SizeEnum.getEnumFromString(newSizeString);
     newPizza.setSize(newSize);
@@ -265,6 +297,9 @@ $(function() {
     var chosenToppingName = $(this).attr('id');
     var chosenTopping = menu.getToppingByName(chosenToppingName);
     newPizza.removeTopping(chosenTopping);
+    // TODO: consider making this a method for cleaner code because the level of
+    // of abstraction of this line is a lot lower than the other lines in this
+    // event handler
     $(this).parent().remove();
     updatePizzaCostInfo(newPizza);
   });
@@ -274,6 +309,8 @@ $(function() {
     var order = new Order();
     order.addPizza(newPizza);
 
+    // TODO: to prevent possible weird UI jiggly behavior, don't show the order
+    // summary until after you've setup its contents
     $('#order-summary').show();
     $('#order-summary ul').empty();
     order.getPizzas().forEach(function(pizza) {
@@ -282,6 +319,9 @@ $(function() {
     });
   });
 
+  // TODO: i'm not sure which syntax is better: what you've done, or
+  // var functioname = function(parameters) { ... }
+  // we should research it
   // UI functions
   function updateNewPizzaInfo(pizza) {
     setPizzaSizeRadio(pizza);
