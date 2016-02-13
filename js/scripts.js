@@ -276,8 +276,7 @@ $(function() {
   }
 
   function setPizzaToppingsInfo(pizza) {
-    var toppings = pizza.toppings;
-    toppings.forEach(function(topping) {
+    pizza.forEachTopping(function(topping) {
       addPizzaToppingToInfo(pizza, topping);
     });
   }
