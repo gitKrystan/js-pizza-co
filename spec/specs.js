@@ -3,6 +3,13 @@ describe('Menu', function() {
     var testMenu = new Menu();
     expect(testMenu.getToppings()[0]).to.be.ok; // jshint ignore:line
   });
+
+  describe('prototype.getToppingByName()', function() {
+    it('returns a topping object based on its name', function() {
+      var testMenu = new Menu();
+      expect(testMenu.getToppingByName('cashew cheese')).to.be.ok; // jshint ignore:line
+    });
+  });
 });
 
 describe('Order', function() {

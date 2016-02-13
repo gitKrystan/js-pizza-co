@@ -8,9 +8,9 @@ var SizeEnum = {
     'large': 3
   },
   properties: {
-    1: {name: 'small'},
-    2: {name: 'medium'},
-    3: {name: 'large'}
+    1: {name: 'small', cost: 12},
+    2: {name: 'medium', cost: 14},
+    3: {name: 'large', cost: 16}
   }
 };
 
@@ -62,7 +62,7 @@ Menu.prototype.getToppings = function () {
 
 Menu.prototype.getToppingByName = function (name) {
   var toppings = this.getToppings();
-  return toppings.find(function() {
+  return toppings.find(function(topping) {
     return topping.getName() === name;
   });
 };
@@ -109,28 +109,7 @@ Pizza.prototype.getBaseCost = function () {
 
 Pizza.prototype.setBaseCost = function () {
   var size = this.getSize();
-
-  // TODO: make these constants. consider putting them in the enum object as
-  // properties if that seems appropriate.
-
-  var costOfMedium = 14; // medium pizza has the median cost
-  var costAdjustment = 2; // adjustment of cost base on pizza size
-
-  // TODO: move these calculations to a separate method to make the code cleaner.
-  switch (size) {
-    case SizeEnum.SMALL:
-      this.baseCost = costOfMedium - costAdjustment;
-      break;
-    case SizeEnum.MEDIUM:
-      this.baseCost = costOfMedium;
-      break;
-    case SizeEnum.LARGE:
-      this.baseCost = costOfMedium + costAdjustment;
-      break;
-    default:
-      this.baseCost = costOfMedium;
-      break;
-  }
+  this.baseCost = SizeEnum.properties[size].cost;
   return this.baseCost;
 };
 
