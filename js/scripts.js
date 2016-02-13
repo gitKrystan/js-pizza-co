@@ -244,19 +244,19 @@ $(function() {
     updatePizzaCostInfo(pizzaForOrder);
   });
 
+  // Form submission for ordering the pizza
   $('form#pizza-selection').submit(function(event) {
     event.preventDefault();
     var order = new Order();
     order.addPizza(pizzaForOrder);
 
-    // TODO: to prevent possible weird UI jiggly behavior, don't show the order
-    // summary until after you've setup its contents
-    $('#order-summary').show();
     $('#order-summary ul').empty();
     order.getPizzas().forEach(function(pizza) {
       $('#order-summary ul').append('<li>' + pizza.getHumanReadableSize() +
         ' $' + pizza.getTotalPizzaCost() + '</li>');
     });
+
+    $('#order-summary').show();
   });
 
   // TODO: i'm not sure which syntax is better: what you've done, or
