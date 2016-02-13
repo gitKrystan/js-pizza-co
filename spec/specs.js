@@ -3,15 +3,6 @@ describe('Menu', function() {
     var testMenu = new Menu();
     expect(testMenu.getToppings()[0]).to.be.ok;
   });
-
-  describe('prototype.getToppingByName()', function() {
-    it('finds a topping object by its name', function() {
-      var testTopping = newTestTopping();
-      var menu = new Menu();
-      menu.toppings.push(testTopping);
-      expect(menu.getToppingByName(testTopping.getName())).to.equal(testTopping);
-    });
-  });
 });
 
 describe('Order', function() {

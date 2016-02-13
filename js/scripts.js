@@ -1,6 +1,8 @@
 function Menu() {
   // hard coding some toppings here since I don't have a database yet
-  this.toppings = [new Topping('apple', 'regular'),
+  this.toppings = [new Topping('red sauce', 'free'),
+                   new Topping('cashew cheese', 'free'),
+                   new Topping('apple', 'regular'),
                    new Topping('bell pepper', 'regular'),
                    new Topping('black olives', 'regular'),
                    new Topping('broccoli', 'regular'),
@@ -206,19 +208,41 @@ $(function() {
   });
 
   // Update toppings list when the user chooses a topping
-  $('.topping').click(function() {
-    chosenToppingName = $(this).attr('id');
-    chosenTopping = menu.getToppingByName(chosenToppingName);
+  $('li.topping').on('click', function() {
+    var chosenToppingName = $(this).attr('id');
+    var chosenTopping = menu.getToppingByName(chosenToppingName);
     newPizza.addTopping(chosenTopping);
-    updatePizzaToppingsInfo(newPizza);
+    addPizzaToppingToInfo(newPizza, chosenTopping);
     updatePizzaCostInfo(newPizza);
+  });
+
+  // Remove a topping if desired by the user
+  $('li.new-pizza-topping span').on('click', function() {
+    var chosenToppingName = $(this).attr('id');
+    var chosenTopping = menu.getToppingByName(chosenToppingName);
+    newPizza.removeTopping(chosenTopping);
+    $(this).parent().remove();
+    updatePizzaCostInfo(newPizza);
+  });
+
+  $('form#pizza-selection').submit(function(event) {
+    event.preventDefault();
+    var order = new Order();
+    order.addPizza(newPizza);
+
+    $('#order-summary').show();
+    $('#order-summary ul').empty();
+    order.getPizzas().forEach(function(pizza) {
+      $('#order-summary ul').append('<li>' + pizza.getSize() + ' $' +
+        pizza.getTotalPizzaCost() + '</li>');
+    });
   });
 
   // UI functions
   function updateNewPizzaInfo(pizza) {
     setPizzaSizeRadio(pizza);
     updatePizzaSizeInfo(pizza);
-    updatePizzaToppingsInfo(pizza);
+    setPizzaToppingsInfo(pizza);
     updatePizzaCostInfo(pizza);
   }
 
@@ -231,15 +255,20 @@ $(function() {
     $('span#new-pizza-size').text(pizza.getSize());
   }
 
-  function updatePizzaToppingsInfo(pizza) {
+  function setPizzaToppingsInfo(pizza) {
     var toppings = pizza.toppings;
-    var $toppingsList = $('ul#new-pizza-toppings')
-
-    $toppingsList.empty();
     toppings.forEach(function(topping) {
-      $toppingsList.append('<li>' + topping.getName() + '</li>');
+      addPizzaToppingToInfo(pizza, topping);
     });
   }
+
+  function addPizzaToppingToInfo(pizza, topping) {
+    var $toppingsList = $('ul#new-pizza-toppings')
+    $toppingsList.append('<li class="new-pizza-topping">' +
+      topping.getName() + ' <span id="' + topping.getName() +
+      '">(remove)</span></li>');
+  }
+
   // TODO: write function to show pizza cost in $s
   function updatePizzaCostInfo(pizza) {
     $('span#new-pizza-cost').text('$' + pizza.getTotalPizzaCost());
@@ -248,7 +277,7 @@ $(function() {
   function generateAddToppingsButtons(toppings) {
     toppings.forEach(function(topping) {
       $('ul#toppings-list').append('<li class="topping" id="' +
-        topping.getName() + '">' + topping.getName() + '</li>');
+        topping.getName() + '">' + topping.getName() + ' (' + topping.getCostCategory() + ')</li>');
     });
   };
 });
