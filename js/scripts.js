@@ -27,7 +27,7 @@ function Menu() {
                    new Topping('spicy tofu', 'premium'),
                    new Topping('sun dried tomatoes', 'premium'),
                    new Topping('tofu ricotta', 'premium'),
-                   new Topping('yams', 'premium')]
+                   new Topping('yams', 'premium')];
 }
 
 Menu.prototype.getToppings = function () {
@@ -36,12 +36,9 @@ Menu.prototype.getToppings = function () {
 
 Menu.prototype.getToppingByName = function (name) {
   var toppings = this.getToppings();
-  for (var i = 0; i < toppings.length; i ++) {
-    var topping = toppings[i];
-    if (topping.getName() === name) {
-      return topping;
-    }
-  }
+  return toppings.find(function() {
+    return topping.getName() === name;
+  });
 };
 
 function Order() {
@@ -100,11 +97,20 @@ Pizza.prototype.setBaseCost = function () {
   var costOfMedium = 14; // medium pizza has the median cost
   var costAdjustment = 2; // adjustment of cost base on pizza size
   switch (size) {
-    case 'small':   return this.baseCost = costOfMedium - costAdjustment;
-    case 'medium':  return this.baseCost = costOfMedium;
-    case 'large':   return this.baseCost = costOfMedium + costAdjustment;
-    default:        return this.baseCost = costOfMedium;
+    case 'small':
+      this.baseCost = costOfMedium - costAdjustment;
+      break;
+    case 'medium':
+      this.baseCost = costOfMedium;
+      break;
+    case 'large':
+      this.baseCost = costOfMedium + costAdjustment;
+      break;
+    default:
+      this.baseCost = costOfMedium;
+      break;
   }
+  return this.baseCost;
 };
 
 Pizza.prototype.getBaseToppingCost = function () {
@@ -116,11 +122,19 @@ Pizza.prototype.setBaseToppingCost = function () {
   var costForMedium = 1.5; // based on cost of regular topping on medium pizza
   var costAdjustment = 0.5; // Cost adjustment based on pizza size
   switch (size) {
-    case 'small':   return this.baseToppingCost = costForMedium - costAdjustment;
-    case 'medium':  return this.baseToppingCost = costForMedium;
-    case 'large':   return this.baseToppingCost = costForMedium + costAdjustment;
-    default:        return this.baseToppingCost = costForMedium;
+    case 'small':
+      this.baseToppingCost = costForMedium - costAdjustment;
+      break;
+    case 'medium':
+      this.baseToppingCost = costForMedium;
+      break;
+    case 'large':
+      this.baseToppingCost = costForMedium + costAdjustment;
+      break;
+    default:
+      this.baseToppingCost = costForMedium;
   }
+  return this.baseToppingCost;
 };
 
 Pizza.prototype.getToppings = function () {
@@ -263,7 +277,7 @@ $(function() {
   }
 
   function addPizzaToppingToInfo(pizza, topping) {
-    var $toppingsList = $('ul#new-pizza-toppings')
+    var $toppingsList = $('ul#new-pizza-toppings');
     $toppingsList.append('<li class="new-pizza-topping">' +
       topping.getName() + ' <span id="' + topping.getName() +
       '">(remove)</span></li>');
@@ -279,5 +293,5 @@ $(function() {
       $('ul#toppings-list').append('<li class="topping" id="' +
         topping.getName() + '">' + topping.getName() + ' (' + topping.getCostCategory() + ')</li>');
     });
-  };
+  }
 });

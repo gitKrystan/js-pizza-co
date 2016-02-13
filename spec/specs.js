@@ -1,7 +1,7 @@
 describe('Menu', function() {
   it('contains a list of available toppings', function() {
     var testMenu = new Menu();
-    expect(testMenu.getToppings()[0]).to.be.ok;
+    expect(testMenu.getToppings()[0]).to.be.ok; // jshint ignore:line
   });
 });
 
