@@ -211,12 +211,12 @@ Topping.prototype.getCostAdjustmentForCostCategory = function () {
   return ToppingCategoryEnum.properties[toppingCostCategory].costAdjustment;
 };
 
-function makeNewDefaultPizza() {
+var makeNewDefaultPizza = function () {
   var pizzaForOrder = new Pizza();
   pizzaForOrder.addTopping(new Topping('red sauce', ToppingCategoryEnum.FREE));
   pizzaForOrder.addTopping(new Topping('cashew cheese', ToppingCategoryEnum.FREE));
   return pizzaForOrder;
-}
+};
 
 $(function() {
   var pizzaForOrder = makeNewDefaultPizza();
