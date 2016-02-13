@@ -259,9 +259,6 @@ $(function() {
     $('#order-summary').show();
   });
 
-  // TODO: i'm not sure which syntax is better: what you've done, or
-  // var functioname = function(parameters) { ... }
-  // we should research it
   // UI functions
   function updateNewPizzaInfo(pizza) {
     setPizzaSizeRadio(pizza);
