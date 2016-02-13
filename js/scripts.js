@@ -219,20 +219,16 @@ function makeNewDefaultPizza() {
 }
 
 $(function() {
-  // TODO: for cleaner code, consider making these two lines a method
   var pizzaForOrder = makeNewDefaultPizza();
   updateNewPizzaInfo(pizzaForOrder);
 
-  // TODO: for cleaner code, consider making these three lines a method
   var menu = new Menu();
   var availableToppings = menu.getToppings();
   generateAddToppingsButtons(availableToppings);
 
   // Update pizza size and cost when the user selects a different size
   $('input[type=radio][name=pizza-size]').change(function() {
-    // TODO: for simpler code, is there a way you can use 'this' instead of
-    // the jQuery selector for the radio button?
-    var newSizeString = $('input[type=radio][name=pizza-size]:checked').val();
+    var newSizeString = $(this).val();
     var newSize = SizeEnum.getEnumFromString(newSizeString);
     pizzaForOrder.setSize(newSize);
     updatePizzaSizeInfo(pizzaForOrder);
