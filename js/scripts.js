@@ -8,9 +8,9 @@ var SizeEnum = {
     'large': 3
   },
   properties: {
-    1: {name: 'small', cost: 12},
-    2: {name: 'medium', cost: 14},
-    3: {name: 'large', cost: 16}
+    1: {name: 'small', cost: 12, regularToppingCost: 1},
+    2: {name: 'medium', cost: 14, regularToppingCost: 1.5},
+    3: {name: 'large', cost: 16, regularToppingCost: 2}
   }
 };
 
@@ -60,10 +60,10 @@ Menu.prototype.getToppings = function () {
   return this.toppings;
 };
 
-Menu.prototype.getToppingByName = function (name) {
+Menu.prototype.getToppingByID = function (id) {
   var toppings = this.getToppings();
   return toppings.find(function(topping) {
-    return topping.getName() === name;
+    return topping.getID() === id;
   });
 };
 
@@ -119,25 +119,7 @@ Pizza.prototype.getBaseToppingCost = function () {
 
 Pizza.prototype.setBaseToppingCost = function () {
   var size = this.getSize();
-
-  // TODO: same suggestions here as setBaseCost above regarding constants and
-  // splitting this into multiple methods.
-
-  var costForMedium = 1.5; // based on cost of regular topping on medium pizza
-  var costAdjustment = 0.5; // Cost adjustment based on pizza size
-  switch (size) {
-    case SizeEnum.SMALL:
-      this.baseToppingCost = costForMedium - costAdjustment;
-      break;
-    case SizeEnum.MEDIUM:
-      this.baseToppingCost = costForMedium;
-      break;
-    case SizeEnum.LARGE:
-      this.baseToppingCost = costForMedium + costAdjustment;
-      break;
-    default:
-      this.baseToppingCost = costForMedium;
-  }
+  this.baseToppingCost = SizeEnum.properties[size].regularToppingCost;
   return this.baseToppingCost;
 };
 
@@ -195,6 +177,11 @@ Topping.prototype.getName = function () {
   return this.name;
 };
 
+Topping.prototype.getID = function () {
+  name = this.getName();
+  return name.replace(/\s/g, ''); // remove all whitespaces
+};
+
 Topping.prototype.getCostCategory = function () {
   return this.costCategory;
 };
@@ -244,22 +231,10 @@ $(function() {
 
   // Update toppings list when the user chooses a topping
   $('li.topping').on('click', function() {
-    var chosenToppingName = $(this).attr('id');
-    var chosenTopping = menu.getToppingByName(chosenToppingName);
+    var chosenToppingID = $(this).attr('id');
+    var chosenTopping = menu.getToppingByID(chosenToppingID);
     newPizza.addTopping(chosenTopping);
     addPizzaToppingToInfo(newPizza, chosenTopping);
-    updatePizzaCostInfo(newPizza);
-  });
-
-  // Remove a topping if desired by the user
-  $('li.new-pizza-topping span').on('click', function() {
-    var chosenToppingName = $(this).attr('id');
-    var chosenTopping = menu.getToppingByName(chosenToppingName);
-    newPizza.removeTopping(chosenTopping);
-    // TODO: consider making this a method for cleaner code because the level of
-    // of abstraction of this line is a lot lower than the other lines in this
-    // event handler
-    $(this).parent().remove();
     updatePizzaCostInfo(newPizza);
   });
 
@@ -307,9 +282,20 @@ $(function() {
 
   function addPizzaToppingToInfo(pizza, topping) {
     var $toppingsList = $('ul#new-pizza-toppings');
-    $toppingsList.append('<li class="new-pizza-topping">' +
-      topping.getName() + ' <span id="' + topping.getName() +
-      '">(remove)</span></li>');
+    $toppingsList.append('<li class="new-pizza-topping">' + topping.getName() +
+      ' <span id="' + topping.getID() + '">(remove)</span></li>');
+
+    // Bind click listener to remove a topping if desired by the user
+    $('li span#' + topping.getID()).on('click', function() {
+      var chosenToppingID = $(this).attr('id');
+      var chosenTopping = menu.getToppingByID(chosenToppingID);
+      newPizza.removeTopping(chosenTopping);
+      // TODO: consider making this a method for cleaner code because the level of
+      // of abstraction of this line is a lot lower than the other lines in this
+      // event handler
+      $(this).parent().remove();
+      updatePizzaCostInfo(newPizza);
+    });
   }
 
   // TODO: write function to show pizza cost in $s
@@ -320,7 +306,7 @@ $(function() {
   function generateAddToppingsButtons(toppings) {
     toppings.forEach(function(topping) {
       $('ul#toppings-list').append('<li class="topping" id="' +
-        topping.getName() + '">' + topping.getName() +
+        topping.getID() + '">' + topping.getName() +
         ' (' + topping.getCostCategory() + ')</li>');
     });
   }

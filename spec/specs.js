@@ -4,10 +4,10 @@ describe('Menu', function() {
     expect(testMenu.getToppings()[0]).to.be.ok; // jshint ignore:line
   });
 
-  describe('prototype.getToppingByName()', function() {
-    it('returns a topping object based on its name', function() {
+  describe('prototype.getToppingByID()', function() {
+    it('returns a topping object based on its id', function() {
       var testMenu = new Menu();
-      expect(testMenu.getToppingByName('cashew cheese')).to.be.ok; // jshint ignore:line
+      expect(testMenu.getToppingByID('sundriedtomatoes')).to.be.ok; // jshint ignore:line
     });
   });
 });
