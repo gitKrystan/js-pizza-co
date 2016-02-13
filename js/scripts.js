@@ -97,27 +97,7 @@ Pizza.prototype.getHumanReadableSize = function () {
 };
 
 Pizza.prototype.setSize = function (size) {
-  var newSize;
-
-  // TODO: you are validating that the size passed in is valid, then setting it.
-  // you should move the validation code to a separate method to make the code
-  // cleaner.
-  // it might make the most sense for the validation functionality to be in the
-  // enum object.
-  switch (size) {
-    case SizeEnum.SMALL:
-      newSize = SizeEnum.SMALL;
-      break;
-    case SizeEnum.MEDIUM:
-      newSize = SizeEnum.MEDIUM;
-      break;
-    case SizeEnum.LARGE:
-      newSize = SizeEnum.LARGE;
-      break;
-    default:
-      newSize = SizeEnum.MEDIUM;
-  }
-  this.size = newSize;
+  this.size = size;
   this.setBaseCost();
   this.setBaseToppingCost();
   return this.getSize();
