@@ -1,3 +1,29 @@
+var SizeEnum = {
+  SMALL: 1,
+  MEDIUM: 2,
+  LARGE: 3,
+  nameHash: {
+    'small': 1,
+    'medium': 2,
+    'large': 3
+  },
+  properties: {
+    1: {name: 'small'},
+    2: {name: 'medium'},
+    3: {name: 'large'}
+  }
+};
+
+SizeEnum.getEnumFromString = function(string) {
+  return SizeEnum.nameHash[string];
+};
+
+SizeEnum.getStringFromEnum = function(number) {
+  return SizeEnum.properties[number].name;
+};
+
+SizeEnum = Object.freeze(SizeEnum); // makes SizeEnum immutable
+
 function Menu() {
   // hard coding some toppings here since I don't have a database yet
   this.toppings = [new Topping('red sauce', 'free'),
@@ -57,7 +83,7 @@ Order.prototype.addPizza = function (pizza) {
 
 // TODO: figure out how to use enums for pizza size
 function Pizza(size) {
-  this.size = size || 'medium';
+  this.size = size || SizeEnum.MEDIUM;
   this.toppings = [];
   this.baseCost = this.setBaseCost();
   this.baseToppingCost = this.setBaseToppingCost();
@@ -67,20 +93,24 @@ Pizza.prototype.getSize = function () {
   return this.size;
 };
 
+Pizza.prototype.getHumanReadableSize = function () {
+  return SizeEnum.getStringFromEnum(this.getSize());
+};
+
 Pizza.prototype.setSize = function (size) {
   var newSize;
   switch (size) {
-    case 'small':
-      newSize = 'small';
+    case SizeEnum.SMALL:
+      newSize = SizeEnum.SMALL;
       break;
-    case 'medium':
-      newSize = 'medium';
+    case SizeEnum.MEDIUM:
+      newSize = SizeEnum.MEDIUM;
       break;
-    case 'large':
-      newSize = 'large';
+    case SizeEnum.LARGE:
+      newSize = SizeEnum.LARGE;
       break;
     default:
-      newSize = 'medium';
+      newSize = SizeEnum.MEDIUM;
   }
   this.size = newSize;
   this.setBaseCost();
@@ -97,13 +127,13 @@ Pizza.prototype.setBaseCost = function () {
   var costOfMedium = 14; // medium pizza has the median cost
   var costAdjustment = 2; // adjustment of cost base on pizza size
   switch (size) {
-    case 'small':
+    case SizeEnum.SMALL:
       this.baseCost = costOfMedium - costAdjustment;
       break;
-    case 'medium':
+    case SizeEnum.MEDIUM:
       this.baseCost = costOfMedium;
       break;
-    case 'large':
+    case SizeEnum.LARGE:
       this.baseCost = costOfMedium + costAdjustment;
       break;
     default:
@@ -122,13 +152,13 @@ Pizza.prototype.setBaseToppingCost = function () {
   var costForMedium = 1.5; // based on cost of regular topping on medium pizza
   var costAdjustment = 0.5; // Cost adjustment based on pizza size
   switch (size) {
-    case 'small':
+    case SizeEnum.SMALL:
       this.baseToppingCost = costForMedium - costAdjustment;
       break;
-    case 'medium':
+    case SizeEnum.MEDIUM:
       this.baseToppingCost = costForMedium;
       break;
-    case 'large':
+    case SizeEnum.LARGE:
       this.baseToppingCost = costForMedium + costAdjustment;
       break;
     default:
@@ -215,7 +245,8 @@ $(function() {
 
   // Update pizza size and cost when the user selects a different size
   $('input[type=radio][name=pizza-size]').change(function() {
-    var newSize = $('input[type=radio][name=pizza-size]:checked').val();
+    var newSizeString = $('input[type=radio][name=pizza-size]:checked').val();
+    var newSize = SizeEnum.getEnumFromString(newSizeString);
     newPizza.setSize(newSize);
     updatePizzaSizeInfo(newPizza);
     updatePizzaCostInfo(newPizza);
@@ -247,8 +278,8 @@ $(function() {
     $('#order-summary').show();
     $('#order-summary ul').empty();
     order.getPizzas().forEach(function(pizza) {
-      $('#order-summary ul').append('<li>' + pizza.getSize() + ' $' +
-        pizza.getTotalPizzaCost() + '</li>');
+      $('#order-summary ul').append('<li>' + pizza.getHumanReadableSize() +
+        ' $' + pizza.getTotalPizzaCost() + '</li>');
     });
   });
 
@@ -261,12 +292,12 @@ $(function() {
   }
 
   function setPizzaSizeRadio(pizza) {
-    $('input[type=radio][name=pizza-size][value=' + pizza.getSize() + ']')
+    $('input[type=radio][name=pizza-size][value=' + pizza.getHumanReadableSize() + ']')
       .prop( "checked", true );
   }
 
   function updatePizzaSizeInfo(pizza) {
-    $('span#new-pizza-size').text(pizza.getSize());
+    $('span#new-pizza-size').text(pizza.getHumanReadableSize());
   }
 
   function setPizzaToppingsInfo(pizza) {
@@ -291,7 +322,8 @@ $(function() {
   function generateAddToppingsButtons(toppings) {
     toppings.forEach(function(topping) {
       $('ul#toppings-list').append('<li class="topping" id="' +
-        topping.getName() + '">' + topping.getName() + ' (' + topping.getCostCategory() + ')</li>');
+        topping.getName() + '">' + topping.getName() +
+        ' (' + topping.getCostCategory() + ')</li>');
     });
   }
 });

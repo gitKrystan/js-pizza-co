@@ -24,7 +24,7 @@ describe('Order', function() {
 describe('Pizza', function() {
   it('knows what size pizza it is', function() {
     var testMediumPizza = newTestMediumPizza();
-    expect(testMediumPizza.getSize()).to.equal('medium');
+    expect(testMediumPizza.getSize()).to.equal(SizeEnum.MEDIUM);
   });
 
   it('initializes with an empty list of toppings', function() {
@@ -35,8 +35,8 @@ describe('Pizza', function() {
   describe('prototype.setSize()', function() {
     it('sets the pizza size', function() {
       var testPizza = newTestMediumPizza();
-      testPizza.setSize('small');
-      expect(testPizza.getSize()).to.equal('small');
+      testPizza.setSize(SizeEnum.SMALL);
+      expect(testPizza.getSize()).to.equal(SizeEnum.SMALL);
     });
   });
 
@@ -135,19 +135,19 @@ function newTestOrder() {
 }
 
 function newTestPizza() {
-  return new Pizza('medium');
+  return new Pizza(SizeEnum.MEDIUM);
 }
 
 function newTestSmallPizza() {
-  return new Pizza('small');
+  return new Pizza(SizeEnum.SMALL);
 }
 
 function newTestMediumPizza() {
-  return new Pizza('medium');
+  return new Pizza(SizeEnum.MEDIUM);
 }
 
 function newTestLargePizza() {
-  return new Pizza('large');
+  return new Pizza(SizeEnum.LARGE);
 }
 
 function newTestTopping() {
