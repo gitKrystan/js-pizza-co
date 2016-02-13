@@ -24,6 +24,11 @@ SizeEnum.getStringFromEnum = function(number) {
 
 SizeEnum = Object.freeze(SizeEnum); // makes SizeEnum immutable
 
+Array.prototype.findAndRemove = function (element) {
+  var index = this.indexOf(element);
+  if (index > -1) this.splice(index, 1);
+};
+
 function Menu() {
   // hard coding some toppings here since I don't have a database yet
   this.toppings = [new Topping('red sauce', 'free'),
@@ -134,12 +139,8 @@ Pizza.prototype.addTopping = function (topping) {
 };
 
 Pizza.prototype.removeTopping = function (topping) {
-  // TODO: consider making a generic method that finds an element in an array
-  // and removes it. this method could just call that method, to make the code
-  // cleaner.
   var toppings = this.getToppings();
-  var index = toppings.indexOf(topping);
-  if (index > -1) toppings.splice(index, 1);
+  toppings.findAndRemove(topping);
   return toppings;
 };
 
