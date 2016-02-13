@@ -292,15 +292,11 @@ $(function() {
       var chosenToppingID = $(this).attr('id');
       var chosenTopping = menu.getToppingByID(chosenToppingID);
       pizzaForOrder.removeTopping(chosenTopping);
-      // TODO: consider making this a method for cleaner code because the level of
-      // of abstraction of this line is a lot lower than the other lines in this
-      // event handler
       $(this).parent().remove();
       updatePizzaCostInfo(pizzaForOrder);
     });
   }
 
-  // TODO: write function to show pizza cost in $s
   function updatePizzaCostInfo(pizza) {
     $('span#new-pizza-cost').text('$' + pizza.getTotalPizzaCost());
   }
