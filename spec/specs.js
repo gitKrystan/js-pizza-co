@@ -133,7 +133,7 @@ describe('Toppings', function() {
 
   it('knows its cost category', function() {
     var testTopping = newTestPremiumTopping();
-    expect(testTopping.getCostCategory()).to.equal('premium');
+    expect(testTopping.getCostCategory()).to.equal(ToppingCategoryEnum.PREMIUM);
   });
 });
 
@@ -170,9 +170,9 @@ function newTestThirdTopping() {
 }
 
 function newTestRegularTopping() {
-  return new Topping('name is irrelevant', 'regular');
+  return new Topping('name is irrelevant', ToppingCategoryEnum.REGULAR);
 }
 
 function newTestPremiumTopping() {
-  return new Topping('name is irrelevant', 'premium');
+  return new Topping('name is irrelevant', ToppingCategoryEnum.PREMIUM);
 }

@@ -24,6 +24,19 @@ SizeEnum.getStringFromEnum = function(number) {
 
 SizeEnum = Object.freeze(SizeEnum); // makes SizeEnum immutable
 
+var ToppingCategoryEnum = {
+  FREE: 0,
+  REGULAR: 1,
+  PREMIUM: 2,
+  properties: {
+    0: {name: 'free', costAdjustment: 0},
+    1: {name: 'regular', costAdjustment: 1},
+    2: {name: 'premium', costAdjustment: 2}
+  }
+};
+
+ToppingCategoryEnum = Object.freeze(ToppingCategoryEnum);
+
 Array.prototype.findAndRemove = function (element) {
   var index = this.indexOf(element);
   if (index > -1) this.splice(index, 1);
@@ -31,34 +44,34 @@ Array.prototype.findAndRemove = function (element) {
 
 function Menu() {
   // hard coding some toppings here since I don't have a database yet
-  this.toppings = [new Topping('red sauce', 'free'),
-                   new Topping('cashew cheese', 'free'),
-                   new Topping('apple', 'regular'),
-                   new Topping('bell pepper', 'regular'),
-                   new Topping('black olives', 'regular'),
-                   new Topping('broccoli', 'regular'),
-                   new Topping('jalepenos', 'regular'),
-                   new Topping('minced garlic', 'regular'),
-                   new Topping('mushroom', 'regular'),
-                   new Topping('onion', 'regular'),
-                   new Topping('peach', 'regular'),
-                   new Topping('pear', 'regular'),
-                   new Topping('spinach', 'regular'),
-                   new Topping('tomato', 'regular'),
-                   new Topping('roasted red potato', 'regular'),
-                   new Topping('artichoke hearts', 'premium'),
-                   new Topping('asparagus', 'premium'),
-                   new Topping('caramelized onions', 'premium'),
-                   new Topping('curried cauliflower', 'premium'),
-                   new Topping('eggplant', 'premium'),
-                   new Topping('kalamata olives', 'premium'),
-                   new Topping('pesto', 'premium'),
-                   new Topping('roasted garlic', 'premium'),
-                   new Topping('roasted zucchini', 'premium'),
-                   new Topping('spicy tofu', 'premium'),
-                   new Topping('sun dried tomatoes', 'premium'),
-                   new Topping('tofu ricotta', 'premium'),
-                   new Topping('yams', 'premium')];
+  this.toppings = [new Topping('red sauce', ToppingCategoryEnum.FREE),
+                   new Topping('cashew cheese', ToppingCategoryEnum.FREE),
+                   new Topping('apple', ToppingCategoryEnum.REGULAR),
+                   new Topping('bell pepper', ToppingCategoryEnum.REGULAR),
+                   new Topping('black olives', ToppingCategoryEnum.REGULAR),
+                   new Topping('broccoli', ToppingCategoryEnum.REGULAR),
+                   new Topping('jalepenos', ToppingCategoryEnum.REGULAR),
+                   new Topping('minced garlic', ToppingCategoryEnum.REGULAR),
+                   new Topping('mushroom', ToppingCategoryEnum.REGULAR),
+                   new Topping('onion', ToppingCategoryEnum.REGULAR),
+                   new Topping('peach', ToppingCategoryEnum.REGULAR),
+                   new Topping('pear', ToppingCategoryEnum.REGULAR),
+                   new Topping('spinach', ToppingCategoryEnum.REGULAR),
+                   new Topping('tomato', ToppingCategoryEnum.REGULAR),
+                   new Topping('roasted red potato', ToppingCategoryEnum.REGULAR),
+                   new Topping('artichoke hearts', ToppingCategoryEnum.PREMIUM),
+                   new Topping('asparagus', ToppingCategoryEnum.PREMIUM),
+                   new Topping('caramelized onions', ToppingCategoryEnum.PREMIUM),
+                   new Topping('curried cauliflower', ToppingCategoryEnum.PREMIUM),
+                   new Topping('eggplant', ToppingCategoryEnum.PREMIUM),
+                   new Topping('kalamata olives', ToppingCategoryEnum.PREMIUM),
+                   new Topping('pesto', ToppingCategoryEnum.PREMIUM),
+                   new Topping('roasted garlic', ToppingCategoryEnum.PREMIUM),
+                   new Topping('roasted zucchini', ToppingCategoryEnum.PREMIUM),
+                   new Topping('spicy tofu', ToppingCategoryEnum.PREMIUM),
+                   new Topping('sun dried tomatoes', ToppingCategoryEnum.PREMIUM),
+                   new Topping('tofu ricotta', ToppingCategoryEnum.PREMIUM),
+                   new Topping('yams', ToppingCategoryEnum.PREMIUM)];
 }
 
 Menu.prototype.getToppings = function () {
@@ -151,7 +164,7 @@ Pizza.prototype.forEachTopping = function (callback) {
 
 Pizza.prototype.getToppingCost = function (topping) {
   var baseCost = this.getBaseToppingCost(); // cost of a regular topping on this pizza
-  var costAdjustmentForToppingCategory = topping.costAdjustmentForCostCategory();
+  var costAdjustmentForToppingCategory = topping.getCostAdjustmentForCostCategory();
   return baseCost * costAdjustmentForToppingCategory;
 };
 
@@ -188,21 +201,20 @@ Topping.prototype.getCostCategory = function () {
   return this.costCategory;
 };
 
-// TODO: method names should start with a verb for cleaner code
-Topping.prototype.costAdjustmentForCostCategory = function () {
+Topping.prototype.getCostCategoryName = function () {
+  var costCategory = this.getCostCategory();
+  return ToppingCategoryEnum.properties[costCategory].name;
+};
+
+Topping.prototype.getCostAdjustmentForCostCategory = function () {
   var toppingCostCategory = this.getCostCategory(); // regular or premium
-  // TODO: use an enum like we did for pizza size
-  switch (toppingCostCategory) {
-    case 'premium': return 2;
-    case 'free': return 0;
-    default: return 1;
-  }
+  return ToppingCategoryEnum.properties[toppingCostCategory].costAdjustment;
 };
 
 function makeNewDefaultPizza() {
   var newPizza = new Pizza();
-  newPizza.addTopping(new Topping('red sauce', 'free'));
-  newPizza.addTopping(new Topping('cashew cheese', 'free'));
+  newPizza.addTopping(new Topping('red sauce', ToppingCategoryEnum.FREE));
+  newPizza.addTopping(new Topping('cashew cheese', ToppingCategoryEnum.FREE));
   return newPizza;
 }
 
@@ -308,7 +320,7 @@ $(function() {
     toppings.forEach(function(topping) {
       $('ul#toppings-list').append('<li class="topping" id="' +
         topping.getID() + '">' + topping.getName() +
-        ' (' + topping.getCostCategory() + ')</li>');
+        ' (' + topping.getCostCategoryName() + ')</li>');
     });
   }
 });
