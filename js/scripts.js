@@ -144,6 +144,11 @@ Pizza.prototype.removeTopping = function (topping) {
   return toppings;
 };
 
+Pizza.prototype.forEachTopping = function (callback) {
+  var toppings = this.getToppings();
+  toppings.forEach(callback);
+};
+
 Pizza.prototype.getToppingCost = function (topping) {
   var baseCost = this.getBaseToppingCost(); // cost of a regular topping on this pizza
   var costAdjustmentForToppingCategory = topping.costAdjustmentForCostCategory();
@@ -151,13 +156,9 @@ Pizza.prototype.getToppingCost = function (topping) {
 };
 
 Pizza.prototype.getTotalToppingsCost = function () {
-
-  var pizza = this;
-  // TODO: for cleaner code, either just use "this" instead of "pizza", or
-  // be consistent and use "pizza" instead of "this" throughout the method.
-  var toppings = this.getToppings();
   var total = 0;
-  toppings.forEach(function(topping) {
+  var pizza = this;
+  this.forEachTopping(function(topping) {
     total += pizza.getToppingCost(topping);
   });
   return total;
